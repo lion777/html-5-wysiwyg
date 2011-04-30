@@ -1,0 +1,35 @@
+.h5w-main {
+	 font: 62.5% "Trebuchet MS", sans-serif;
+}
+.h5w-card{
+	height:50px;
+}
+.h5w-section {
+	
+}
+.h5w-icon {
+	display:block;
+	float:left;
+	width:20px;
+	height:20px;
+}
+.h5w-icon:hover{
+	background-color: #ffdc6e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border:1px solid #c29037;
+
+}
+.h5w-seperator  {display:block; float:left; background: url(../img/seperator.png) center 2px no-repeat; height:18px; width:2px;}
+
+.h5w-bold {background: url(../img/bold.png) center center no-repeat;}
+.h5w-italic {background: url(../img/italic.png) center center no-repeat;}
+.h5w-underline {background: url(../img/underline.png) center center no-repeat;}
+.h5w-strike{background: url(../img/strike.png) center center no-repeat;}
+.h5w-createlink {background: url(../img/createlink.png) center center no-repeat;}
+.h5w-unlink {background: url(../img/unlink.png) center center no-repeat;}
+
+.h5w-justifyleft{background: url(../img/justifyleft.png) center center no-repeat;}
+.h5w-justifycenter {background: url(../img/justifycenter.png) center center no-repeat;}
+.h5w-justifyright {background: url(../img/justifyright.png) center center no-repeat;}

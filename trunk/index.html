@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>jQuery UI Example Page</title>
+		<link type="text/css" href="css/cupertino/jquery-ui-1.8.12.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/h5w.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
+		<script type="text/javascript" src="h5w.js"></script>
+		<script type="text/javascript">
+			$(function(){
+			$("#demos").h5w();
+
+			$(".getresult").click(function(){
+				$("#result").html($(".h5w-content").html());
+				return false;
+			});
+			});
+		</script>	
+	</head>
+	<body>
+	<div id="demos">
+		<div class="h5w-main">
+			<!-- Tabs -->
+			<div class="h5w-tabs">
+				<ul>
+					<li><a href="#MainTools">Narzedzia glówne</a></li>
+					<li><a href="#tabs-2">Wstawianie</a></li>
+					<li><a href="#tabs-3">elementy HTML</a></li>
+				</ul>
+				<div id="MainTools" class="h5w-card">
+					<div class="h5w-section">
+						<div class="h5w-group">
+							<a href="#bold" class="h5w-icon h5w-bold" data-h5w-function="bold" > </a>
+							<a href="#italic" class="h5w-icon h5w-italic" data-h5w-function="italic"> </a>
+							<a href="#underline" class="h5w-icon h5w-underline" data-h5w-function="underline"> </a>
+							<a href="#strike" class="h5w-icon h5w-strike" data-h5w-function="strike"> </a>
+							
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#createlink" class="h5w-icon h5w-createlink" data-h5w-function="createlink"> </a>
+							<a href="#unlink" class="h5w-icon h5w-unlink" data-h5w-function="unlink"> </a>
+
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#justifyleft" class="h5w-icon h5w-justifyleft" data-h5w-function="justifyleft"> </a>
+							<a href="#justifycenter" class="h5w-icon h5w-justifycenter" data-h5w-function="justifycenter"> </a>
+							<a href="#justifyright" class="h5w-icon h5w-justifyright" data-h5w-function="justifyright"> </a>
+						</div>
+					</div>
+				</div>
+				<div id="tabs-2" class="h5w-card">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+				<div id="tabs-3" class="h5w-card">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+				
+				<div class="h5w-content" style="width:100%; height:500px; background:#FFF;" contenteditable="true">
+				asd<b>asasdasd</b>ds
+				</div>
+			</div>
+		</div>
+	</div>
+	<a href="#" class="getresult">get result</a>
+		<div id="result"></div>
+	
+	</body>
+</html>
+
+

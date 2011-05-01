@@ -1,10 +1,13 @@
-(function($) {
-	jQuery.fn.h5w = function(options) {
+ï»¿(function($) {
+$.fn.extend({
+	h5w : function(options, val) {
 		if(options == "destroy"){
 			$(this).trigger('h5w.destroy');
 			return this;
-		}
-		;
+		};
+		if(options == "getContent"){
+			return $(this).find(".h5w-content").html();
+		};
 		var options = jQuery.extend({
 			onStart: function(teadasd) {
 							return true;
@@ -19,6 +22,19 @@
 				
 				
 			},
+			onLoad : function(icon){
+				
+				
+			},
+			onTextarea : function(text){
+			
+				return text;
+			},
+			onVisual : function(text){
+			
+				return text;
+			},
+			content : "",
 			functions : {
 			
 			}
@@ -28,7 +44,7 @@
 
 		var functions = jQuery.extend({
 italic: function(main, icon) {
-				alert($(retrieveAnchorNode()));
+
 				document.execCommand('italic',null,false);
 				return true;
 			},
@@ -108,6 +124,18 @@ justifyleft: function(main, icon) {
 				document.execCommand('justifyLeft', false, null);
 				return true;
 			},
+paste: function(main, icon) {
+				document.execCommand('paste', false, null);
+				return true;
+			},
+copy: function(main, icon) {
+				document.execCommand('copy', false, null);
+				return true;
+			},
+cut: function(main, icon) {
+				document.execCommand('cut', false, null);
+				return true;
+			},
 fontcolor: function(main, icon) {	
 			if(typeof(main)=='string'){
 					document.execCommand("ForeColor",false, main);
@@ -149,13 +177,13 @@ onIconClick : function(icon){
 		};
 		
 		function getSelectedText(){
-			    var txt = '';
-			     if (window.getSelection)
-			        txt = window.getSelection();
-			    else if (document.getSelection)
-			        txt = document.getSelection();
-			    else if (document.selection)
-			        txt = document.selection.createRange().text;
+			Â Â Â Â var txt = '';
+			Â Â Â Â  if (window.getSelection)
+			Â Â Â Â Â Â Â Â txt = window.getSelection();
+			Â Â Â Â else if (document.getSelection)
+			Â Â Â Â Â Â Â Â txt = document.getSelection();
+			Â Â Â Â else if (document.selection)
+			Â Â Â Â Â Â Â Â txt = document.selection.createRange().text;
 			return txt;
 		}
 		function retrieveAnchorNode() {
@@ -229,11 +257,9 @@ onIconClick : function(icon){
 			
 			
 		}
+
 		return this.each(function() {
 
-			this.h5w = {
-test:	true
-			};
 			var MainHandle = this;
 			$(MainHandle).bind('h5w.destroy', destroy);
 
@@ -250,22 +276,45 @@ test:	true
 				options.onUseButtons(this, FunName, ToUseFunction);
 				return false;
 			});
-			
+			$(document).keydown(function(event) {
+				  if(event.keyCode == 9){
+				  document.execCommand('insertHTML', false, "\t");
+					event.preventDefault();
+					event.returnValue = false;
+				 }
+				});
 			$(MainHandle).find( ".h5w-tabs-bottom" ).tabs();
 			$(MainHandle).find( ".h5w-tabs-bottom .ui-tabs-nav, .h5w-tabs-bottom .ui-tabs-nav > *" )
 				.removeClass( "ui-corner-all ui-corner-top" )
 					.addClass( "ui-corner-bottom" );
 			$(MainHandle).find(".h5w-refresh-textarea").click(function(){
-					$(MainHandle).find(".h5w-texarea").val($(MainHandle).find(".h5w-content").html());
+					$(MainHandle).find(".h5w-texarea").val(options.onTextarea($(MainHandle).find(".h5w-content").html()));
 			});
 			$(MainHandle).find(".h5w-refresh-editor").click(function(){
-					$(MainHandle).find(".h5w-content").html($(MainHandle).find(".h5w-texarea").val());
+					$(MainHandle).find(".h5w-content").html(options.onVisual($(MainHandle).find(".h5w-texarea").val())).trigger("change");
+					
 			});
-			$(MainHandle).find(".h5w-texarea").val($(MainHandle).find(".h5w-content").html());
+			$(MainHandle).find(".h5w-texarea").val(options.onVisual($(MainHandle).find(".h5w-content").html()));
 			picker.prepare(MainHandle);
-
-			$(MainHandle).find(".h5w-content").bind("keyup change", options.OnChange)
+			$(MainHandle).find(".h5w-content").html(options.content);
 			
+			$(MainHandle).find(".h5w-content").bind("keyup change", options.onChange);
+			
+			
+			$(MainHandle).find(".h5w-content").trigger("change");
+			options.onLoad(this);
 		});
-	};
+	},
+	getContent : function(){
+		$(this).find(".h5w-refresh-textarea").trigger("click");
+		return $(this).find(".h5w-texarea").val().replace("<!--?php", "<?php");
+	},
+	setContent : function(cont){
+		$(this).find(".h5w-content").html(cont).trigger("change");
+	},
+	editor : function(){
+		return $(this).find(".h5w-content");
+	}
+	
+	})
 })(jQuery);

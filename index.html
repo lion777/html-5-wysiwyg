@@ -9,48 +9,76 @@
 		<script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
 		<script type="text/javascript" src="h5w.js"></script>
 		
-	
+	<style>
+	.xv-to-remove, .xv-without-html {
+		background-color: #fefcf5;
+		border:1px solid #000;
+		padding:5px;
+	}
+	</style>
 		<script type="text/javascript">
 			$(function(){
-			
+				var Content = ($.ajax({
+						url: "exampletext.html",
+						dataType: "text",
+						async: false
+				}).responseText);
+				
+				function parseReturnedXML(strToParse, strStart){
+					var str = strToParse.match(new RegExp("<"+strStart+"[^<]*(?:(?!<\/"+strStart+">)<[^<]*)*<\/"+strStart+">", "gi"));
+					if (str != null) 
+					return str;
+					return [];
+				}
+				function htmlspecialchars(p_string) {
+					p_string = p_string.replace(/&/g, '&amp;');
+					p_string = p_string.replace(/</g, '&lt;');
+					p_string = p_string.replace(/>/g, '&gt;');
+					return p_string;
+				};
+				function htmlspecialchars_decode(p_string) {
+					p_string = p_string.replace(/&amp;/g, '&');
+					p_string = p_string.replace(/&lt;/g, '<');
+					p_string = p_string.replace(/&gt;/g, '>');
+					return p_string;
+				};
+
+				function parserxvtext(text){
+					var XVtags = ["include", "php", "delphi", "cpp", "java", "java5", "css", "javascript", "code", "vars", "file", "script"];
+					$.each(XVtags, function(index, value) {
+						$.each(parseReturnedXML(text, value), function(indexz, valuez) {
+							text = text.replace(valuez, "<pre class='xv-to-remove xv-without-html'>"+htmlspecialchars(valuez)+"</pre>");
+						})
+					});
+					return text;
+				}
+
+
 				$("#demos").h5w({
 					onLoad : function(h5w){
-						/*
-						$(h5w).editor().find("include, php, delphi, cpp, java, java5, css, javascript, code, vars, file, script").each(function(){
-							$(this).replaceWith( $("<pre>").addClass("xv-to-remove xv-without-html").css({
-								"background-color": "#CCCCCC",
-								"border" : "1px solid #000"
-							}).text($("<div>").html($(this).clone()).html()));
-						});
-				*/
 						
 						return true;
 					},
 					onChange : function(){
-						$(this).find("include, php, delphi, cpp, java, java5, css, javascript, code, vars, file, script").each(function(){
-							$(this).replaceWith( $("<pre>").addClass("xv-to-remove xv-without-html").css({
-								"background-color": "#fefcf5",
-								"border" : "1px solid #000",
-								"padding":"5px"
-							}).text($("<div>").html($(this).clone()).html()));
-						});
+
 						
 						$(this).find(".xv-without-html").html(function(index, oldhtml){
 							return oldhtml.replace(/(<([^>]+)>)/ig,"");
 						});
 					},
-					content : ($.ajax({
-					  url: "exampletext.html",
-					  dataType: "text",
-					  async: false
-					 }).responseText),
-					 
+					content : parserxvtext(Content),
+					
 					onTextarea : function(text){
-						var tobj = $("<div>"+text+"</div>");
-						tobj.find(".xv-to-remove").each(function(){
-							$(this).replaceWith($(this).clone().text());
+						$.each(text.match(new RegExp("<pre class=\"xv-to-remove[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>", "gi")), function(index, value){
+							text = text.replace(value, htmlspecialchars_decode(value.replace(/<pre(.*?)>/, "").replace(/<\/pre(.*?)>/, "")));
 						});
-					return tobj.html();
+						
+						
+						return text;
+					},
+					onVisual : function(text){
+						
+						return parserxvtext(text);
 					}
 				});
 
@@ -59,7 +87,7 @@
 					return false;
 				});
 
-		
+				
 			});
 		</script>	
 	</head>

@@ -161,13 +161,13 @@ na:
 <div style="text-align:center; margin:5px; font-style:italic;"> http://static.example.com/theme/css/style.css </div>
 
 Można to wykonać za pomocą modułu mod_rewrite i reguły w pliku .htaccess na serwerach apache:
-<code lang="xml"">
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteCond %{REQUEST_FILENAME} !-s [NC]
-	RewriteCond %{REQUEST_FILENAME} !-d [NC]
-	RewriteRule ^(.+) cdn.php/$1 [L,QSA]
-</IfModule>
+<code lang="xml">
+	<IfModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteCond %{REQUEST_FILENAME} !-s [NC]
+		RewriteCond %{REQUEST_FILENAME} !-d [NC]
+		RewriteRule ^(.+) cdn.php/$1 [L,QSA]
+	</IfModule>
 </code>
 Natomiast dla ngnix, stworzenie reguły w pliku konfiguracyjnym.
 Ostatnim zadaniem jest zmiana na naszej stronie adres plików na naszym serwerze. Teraz nasz serwer będzie miał tylko jedno zadanie - generowanie kodu html naszej strony.<br/><br/>

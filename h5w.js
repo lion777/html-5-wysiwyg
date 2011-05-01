@@ -1,4 +1,11 @@
-﻿(function($) {
+﻿/***************************************************/
+/******** Author: Krzysztof Bednarczyk *************/
+/******** License: LGPL                *************/
+/******** http://bordeux.NET           *************/
+/******** Part of XVweb project        *************/
+/******** xvweb.googlecode.com         *************/
+/***************************************************/
+(function($) {
 $.fn.extend({
 	h5w : function(options, val) {
 		if(options == "destroy"){

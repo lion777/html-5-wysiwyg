@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>jQuery UI Example Page</title>
+		<link type="text/css" href="css/cupertino/jquery-ui-1.8.12.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/h5w.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
+		<script type="text/javascript" src="h5w.js"></script>
+		
+	<style>
+	.xv-to-remove, .xv-without-html {
+		background-color: #fefcf5;
+		border:1px solid #000;
+		padding:5px;
+	}
+	</style>
+		<script type="text/javascript">
+			$(function(){
+				var Content = ($.ajax({
+						url: "exampletext.html",
+						dataType: "text",
+						async: false
+				}).responseText);
+				
+				function parseReturnedXML(strToParse, strStart){
+					var str = strToParse.match(new RegExp("<"+strStart+"[^<]*(?:(?!<\/"+strStart+">)<[^<]*)*<\/"+strStart+">", "gi"));
+					if (str != null) 
+					return str;
+					return [];
+				}
+				function htmlspecialchars(p_string) {
+					p_string = p_string.replace(/&/g, '&amp;');
+					p_string = p_string.replace(/</g, '&lt;');
+					p_string = p_string.replace(/>/g, '&gt;');
+					return p_string;
+				};
+				function htmlspecialchars_decode(p_string) {
+					p_string = p_string.replace(/&amp;/g, '&');
+					p_string = p_string.replace(/&lt;/g, '<');
+					p_string = p_string.replace(/&gt;/g, '>');
+					return p_string;
+				};
+
+				function parserxvtext(text){
+					var XVtags = ["include", "php", "delphi", "cpp", "java", "java5", "css", "javascript", "code", "vars", "file", "script"];
+					$.each(XVtags, function(index, value) {
+						$.each(parseReturnedXML(text, value), function(indexz, valuez) {
+							text = text.replace(valuez, "<pre class='xv-to-remove xv-without-html'>"+htmlspecialchars(valuez)+"</pre>");
+						})
+					});
+					return text;
+				}
+
+
+				$("#demos").h5w({
+					onLoad : function(h5w){
+						
+						return true;
+					},
+					onChange : function(){
+
+						
+						$(this).find(".xv-without-html").html(function(index, oldhtml){
+							return oldhtml.replace(/(<([^>]+)>)/ig,"");
+						});
+					},
+					content : parserxvtext(Content),
+					
+					onTextarea : function(text){
+						$.each(text.match(new RegExp("<pre class=\"xv-to-remove[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>", "gi")), function(index, value){
+							text = text.replace(value, htmlspecialchars_decode(value.replace(/<pre(.*?)>/, "").replace(/<\/pre(.*?)>/, "")));
+						});
+						
+						
+						return text;
+					},
+					onVisual : function(text){
+						
+						return parserxvtext(text);
+					}
+				});
+
+				$(".getresult").click(function(){
+					$("#result").html($("#demos").getContent());
+					return false;
+				});
+
+				
+			});
+		</script>	
+	</head>
+	<body>
+	<div id="demos">
+		<div class="h5w-main">
+			<!-- Tabs -->
+			<div class="h5w-tabs">
+				<ul>
+					<li><a href="#MainTools">Narzedzia glówne</a></li>
+					<li><a href="#tabs-2">Wstawianie</a></li>
+					<li><a href="#tabs-3">elementy HTML</a></li>
+				</ul>
+				<div id="MainTools" class="h5w-card">
+					<div class="h5w-section" >
+			
+						<div class="h5w-group">
+								<a href="#paste" class="h5w-icon h5w-paste" data-h5w-function="paste" >Paste</a>
+								<div>
+									<a href="#cut" class="h5w-icon h5w-cut" data-h5w-function="cut" > Wytnij </a> 
+									<a href="#copy" class="h5w-icon h5w-copy" data-h5w-function="copy" > Copy </a>
+								</div>
+						</div>
+						<div class="h5w-group-seperator"></div>
+						<div class="h5w-group">
+							<div>
+							asda
+							</div>
+							<div>
+								<a href="#bold" class="h5w-icon h5w-bold" data-h5w-function="bold" > </a>
+								<a href="#italic" class="h5w-icon h5w-italic" data-h5w-function="italic"> </a>
+								<a href="#underline" class="h5w-icon h5w-underline" data-h5w-function="underline"> </a>
+								<a href="#strike" class="h5w-icon h5w-strike" data-h5w-function="strike"> </a>
+								<a href="#subscript" class="h5w-icon h5w-subscript" data-h5w-function="subscript"> </a>
+								<a href="#superscript" class="h5w-icon h5w-superscript" data-h5w-function="superscript"> </a>
+								<a href="#seperator" class="h5w-seperator"></a>
+								<a href="#fontcolor" class="h5w-icon h5w-fontcolor" data-h5w-function="fontcolor"> </a>
+								<a href="#fontcolorpicker" class="h5w-picker h5w-font-picker" data-h5w-destination=".h5w-font-picker" data-h5w-onchange-function="functions.fontcolor"> </a>
+								<a href="#fontcolor" class="h5w-icon h5w-hilitecolor" data-h5w-function="hilitecolor"> </a>
+								<a href="#hilitecolorpicker" class="h5w-picker h5w-hilitecolor-picker" data-h5w-destination=".h5w-hilitecolor-picker" data-h5w-onchange-function="functions.hilitecolor"> </a>
+							</div>
+						</div>
+						<div class="h5w-group-seperator"></div>
+						<div class="h5w-group">
+							<a href="#paragraph" class="h5w-icon h5w-paragraph" data-h5w-function="paragraph"> </a>
+							
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#hrule" class="h5w-icon h5w-hrule" data-h5w-function="hrule"> </a>
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#listordered" class="h5w-icon h5w-listordered" data-h5w-function="listordered"> </a>
+							<a href="#listunordered" class="h5w-icon h5w-listunordered" data-h5w-function="listunordered"> </a>
+							
+							
+							
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#createlink" class="h5w-icon h5w-createlink" data-h5w-function="createlink"> </a>
+							<a href="#unlink" class="h5w-icon h5w-unlink" data-h5w-function="unlink"> </a>
+
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#insertimage" class="h5w-icon h5w-insertimage" data-h5w-function="insertimage"> </a>
+							
+							
+							<a href="#seperator" class="h5w-seperator"></a>
+							<a href="#justifyleft" class="h5w-icon h5w-justifyleft" data-h5w-function="justifyleft"> </a>
+							<a href="#justifycenter" class="h5w-icon h5w-justifycenter" data-h5w-function="justifycenter"> </a>
+							<a href="#justifyright" class="h5w-icon h5w-justifyright" data-h5w-function="justifyright"> </a>
+							
+							
+							
+							
+						</div>
+					</div>
+				</div>
+				<div id="tabs-2" class="h5w-card">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+				<div id="tabs-3" class="h5w-card">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
+				<div class="h5w-tabs-bottom">
+				
+					<div id="h5w-id-content" class="h5w-content" contenteditable="true">zdsadasdasd</div>
+					<textarea id="h5w-textarea-id" class="h5w-texarea" ></textarea>
+					
+					<ul>
+						<li><a href="#h5w-id-content" class="h5w-refresh-editor">Visual</a></li>
+						<li><a href="#h5w-textarea-id" class="h5w-refresh-textarea">Kod HTML</a></li>
+					</ul>
+				</div>
+	
+			</div>
+			<div class="h5w-picker-area" style="position:absolute; top:1; "> 
+				<div class="h5w-picker-red"></div> 
+				<div class="h5w-picker-green"></div> 
+				<div class="h5w-picker-blue"></div> 
+				<div class="h5w-picker-opacity"></div> 
+				<div class="h5w-picker-swatch" class="ui-widget-content ui-corner-all" style="background:white;"></div> 
+				<div style="clear:both" ></div>
+				 
+			</div>
+		</div>
+	</div>
+	<a href="#" class="getresult">get result</a>
+		<textarea id="result"></textarea>
+	
+	</body>
+</html>
+
+

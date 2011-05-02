@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>jQuery UI Example Page</title>
+		<title>HTML 5 WYSIWYG Editor</title>
 		<link type="text/css" href="css/cupertino/jquery-ui-1.8.12.custom.css" rel="stylesheet" />	
 		<link type="text/css" href="css/h5w.css" rel="stylesheet" />	
 		<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
@@ -86,8 +86,7 @@
 					$("#result").html($("#demos").getContent());
 					return false;
 				});
-
-				
+			
 			});
 		</script>	
 	</head>
@@ -97,9 +96,9 @@
 			<!-- Tabs -->
 			<div class="h5w-tabs">
 				<ul>
-					<li><a href="#MainTools">Narzedzia glówne</a></li>
-					<li><a href="#tabs-2">Wstawianie</a></li>
-					<li><a href="#tabs-3">elementy HTML</a></li>
+					<li><a href="#MainTools">Home</a></li>
+					<li><a href="#Insert">Inset</a></li>
+					<li><a href="#tabs-3">HTML elements</a></li>
 				</ul>
 				<div id="MainTools" class="h5w-card">
 					<div class="h5w-section" >
@@ -114,7 +113,7 @@
 						<div class="h5w-group-seperator"></div>
 						<div class="h5w-group">
 							<div>
-							asda
+							ToDo - Font type select and size
 							</div>
 							<div>
 								<a href="#bold" class="h5w-icon h5w-bold" data-h5w-function="bold" > </a>
@@ -141,31 +140,37 @@
 							<a href="#listunordered" class="h5w-icon h5w-listunordered" data-h5w-function="listunordered"> </a>
 							
 							
-							
-							<a href="#seperator" class="h5w-seperator"></a>
-							<a href="#createlink" class="h5w-icon h5w-createlink" data-h5w-function="createlink"> </a>
-							<a href="#unlink" class="h5w-icon h5w-unlink" data-h5w-function="unlink"> </a>
 
-							<a href="#seperator" class="h5w-seperator"></a>
-							<a href="#insertimage" class="h5w-icon h5w-insertimage" data-h5w-function="insertimage"> </a>
+			
 							
 							
 							<a href="#seperator" class="h5w-seperator"></a>
 							<a href="#justifyleft" class="h5w-icon h5w-justifyleft" data-h5w-function="justifyleft"> </a>
 							<a href="#justifycenter" class="h5w-icon h5w-justifycenter" data-h5w-function="justifycenter"> </a>
 							<a href="#justifyright" class="h5w-icon h5w-justifyright" data-h5w-function="justifyright"> </a>
-							
-							
+						<a href="#seperator" class="h5w-seperator"></a>
 							
 							
 						</div>
 					</div>
 				</div>
-				<div id="tabs-2" class="h5w-card">Phasellus mattis tincidunt nibh. Cras orci urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+				<div id="Insert" class="h5w-card">
+					<div class="h5w-section" >
+						<div class="h5w-group">
+							<a href="#tablepicker" class="h5w-icon-nojs h5w-table h5w-tablepicker" data-h5w-onselect-function="functions.table"> Table </a>
+							<a href="#seperator" class="h5w-group-seperator"></a>
+							<a href="#insertimage" class="h5w-icon h5w-insertimage" data-h5w-function="insertimage"> Image </a>
+							<a href="#seperator" class="h5w-group-seperator"></a>
+							<a href="#createlink" class="h5w-icon h5w-createlink" data-h5w-function="createlink"> Link </a>
+							<a href="#unlink" class="h5w-icon h5w-unlink" data-h5w-function="unlink"> Unlink </a>
+						</div>
+					</div>
+				
+				</div>
 				<div id="tabs-3" class="h5w-card">Nam dui erat, auctor a, dignissim quis, sollicitudin eu, felis. Pellentesque nisi urna, interdum eget, sagittis et, consequat vestibulum, lacus. Mauris porttitor ullamcorper augue.</div>
 				<div class="h5w-tabs-bottom">
 				
-					<div id="h5w-id-content" class="h5w-content" contenteditable="true"></div>
+					<div id="h5w-id-content" class="h5w-content" contenteditable="true" spellcheck="true"></div>
 					<textarea id="h5w-textarea-id" class="h5w-texarea" ></textarea>
 					
 					<ul>
@@ -175,7 +180,7 @@
 				</div>
 	
 			</div>
-			<div class="h5w-picker-area" style="position:absolute; top:1; "> 
+			<div class="h5w-picker-area" style="position:absolute; top:0; "> 
 				<div class="h5w-picker-red"></div> 
 				<div class="h5w-picker-green"></div> 
 				<div class="h5w-picker-blue"></div> 
@@ -183,6 +188,9 @@
 				<div class="h5w-picker-swatch" class="ui-widget-content ui-corner-all" style="background:white;"></div> 
 				<div style="clear:both" ></div>
 				 
+			</div>	
+			<div class="h5w-tablepicker-area" style="position:absolute; top:0; "> 
+						dasdasdadsd
 			</div>
 		</div>
 	</div>

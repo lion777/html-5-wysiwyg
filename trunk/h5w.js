@@ -101,6 +101,7 @@ target: "_blank"
 				return true;
 			},
 insertimage: function(main, icon) {
+
 				document.execCommand('insertImage', null , 'changeit');
 
 				$(main).find(".h5w-content img[src='changeit']").each(function(){
@@ -159,7 +160,10 @@ hilitecolor: function(main, icon) {
 				document.execCommand("hiliteColor",false, $(icon).parent().find(".h5w-hilitecolor-picker").css("background-color"));
 				return true;
 			},
-			
+table: function(main, icon, width, height) {
+				document.execCommand('insertHTML', false, tablepicker.generate(16,16));
+				return true;
+			},	
 onIconClick : function(icon){
 				
 				
@@ -199,7 +203,71 @@ onIconClick : function(icon){
 			else if (document.getSelection)
 			return window.getSelection().anchorNode;
 		}
-		var picker = {
+		var tablepicker = {
+			generate : function (width, height, anchor){
+				var TableCreator = "<table class='h5w-table-creator'>";
+					  for (n = 0; n <= height; ++n){
+						TableCreator += "<tr>";
+							 for (zn = 0; zn <= width; ++zn){
+							 if(typeof anchor == "undefined")
+							 TableCreator += "<td>&nbsp;</td>"; else
+								TableCreator += "<td><a href='#' ></a></td>";
+							 }
+						TableCreator += "</tr>";
+					  }
+					TableCreator += "<table>";
+				return TableCreator;
+			},
+			onSelect : function(){
+			
+			},
+			prepare : function(MainHandle){
+				var onCloseTablePicker = function(event) {
+						if (!($(event.target).is('.h5w-tablepicker-area') || $(event.target).parents('.h5w-tablepicker-area').length)) {
+							$(".h5w-tablepicker-area").hide("slow");
+							$(document.body).unbind("click", onCloseTablePicker);
+						}
+					return false;
+					}
+					IHandle = $(this);
+
+				$(MainHandle).find( ".h5w-tablepicker" ).click(function(){
+
+					tablepicker.onSelect = eval($(this).data("h5w-onselect-function"));
+					var position = $(this).position();
+
+					$(MainHandle).find( ".h5w-tablepicker-area" ).css({
+						left:position.left+$(this).width()+5,
+						top: position.top+$(this).height()+5
+					}).html(tablepicker.generate(16,16, true)).show("slow").find("table").delegate('td','mouseover mouseleave', function(e) {
+						if (e.type == 'mouseover') {
+							THandle = $(this).parents("table");
+							THeight = $(this).parent().index();
+							TWidth = $(this).index()+1;
+								for (n = 0; n <= THeight; ++n){
+									THandle.find("tr:eq("+n+")").find("td:lt("+TWidth+")").addClass("hover");
+								}
+						}
+						else {
+						 $(this).parents("table").find("*").removeClass("hover");
+						}
+					}).find("td a").click(function(event){
+						tablepicker.onSelect(MainHandle, IHandle, $(this).parent().index(), $(this).parent().parent().index());
+						$(this).parents(".h5w-tablepicker-area").hide("slow");
+						$(document.body).unbind("click", onCloseTablePicker);
+
+						return false;
+					});
+					setTimeout(function(){
+						$(document.body).click(onCloseTablePicker);
+					},5)
+					return false;
+				});;
+				
+			}
+			
+		},
+		picker = {
 			changebg : ".something",
 			color : '',
 			onChange : function(color){
@@ -239,8 +307,8 @@ onIconClick : function(icon){
 					picker.changebg = $(this).data("h5w-destination");
 					picker.onChange = eval($(this).data("h5w-onchange-function"));
 					$(MainHandle).find( ".h5w-picker-area" ).css({
-						left:position.left+18,
-						top: position.top+18
+						left:position.left+$(this).width()+5,
+						top: position.top+$(this).height()+5
 					}).show("slow");
 					var onClosePicker = function(event) {
 						if (!($(event.target).is('.h5w-picker-area') || $(event.target).parents('.h5w-picker-area').length)) {
@@ -251,7 +319,7 @@ onIconClick : function(icon){
 					}
 					setTimeout(function(){
 						$(document.body).click(onClosePicker);
-					},500)
+					},5)
 					
 				});;
 				
@@ -271,7 +339,7 @@ onIconClick : function(icon){
 			$(MainHandle).bind('h5w.destroy', destroy);
 
 			$(MainHandle).find('.h5w-tabs').tabs({
-				
+
 			}).find( ".ui-tabs-nav" ).sortable({ axis: "x" });
 			$(MainHandle).find(".h5w-icon").bind("click", function(){
 				FunName = $(this).data("h5w-function");
@@ -303,6 +371,7 @@ onIconClick : function(icon){
 			});
 			$(MainHandle).find(".h5w-texarea").val(options.onVisual($(MainHandle).find(".h5w-content").html()));
 			picker.prepare(MainHandle);
+			tablepicker.prepare(MainHandle);
 			$(MainHandle).find(".h5w-content").html(options.content);
 			
 			$(MainHandle).find(".h5w-content").bind("keyup change", options.onChange);

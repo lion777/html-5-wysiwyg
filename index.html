@@ -18,12 +18,16 @@
 	</style>
 		<script type="text/javascript">
 			$(function(){
-				var Content = ($.ajax({
-						url: "exampletext.html",
-						dataType: "text",
-						async: false
-				}).responseText);
-				
+					if(location.protocol == "file:"){
+					var Content = "You must run this on http server";
+					 alert(Content);
+					}else {
+						var Content = ($.ajax({
+								url: "exampletext.html",
+								dataType: "text",
+								async: false
+						}).responseText);
+				}
 				function parseReturnedXML(strToParse, strStart){
 					var str = strToParse.match(new RegExp("<"+strStart+"[^<]*(?:(?!<\/"+strStart+">)<[^<]*)*<\/"+strStart+">", "gi"));
 					if (str != null) 
@@ -104,10 +108,10 @@
 					<div class="h5w-section" >
 			
 						<div class="h5w-group">
-								<a href="#paste" class="h5w-icon h5w-paste" data-h5w-function="paste" >Paste</a>
+								<a href="#paste" class="h5w-icon h5w-paste" data-h5w-function="paste" title="Paste">Paste</a>
 								<div>
-									<a href="#cut" class="h5w-icon h5w-cut" data-h5w-function="cut" > Cut </a> 
-									<a href="#copy" class="h5w-icon h5w-copy" data-h5w-function="copy" > Copy </a>
+									<a href="#cut" class="h5w-icon h5w-cut" data-h5w-function="cut" title="Cut"> Cut </a> 
+									<a href="#copy" class="h5w-icon h5w-copy" data-h5w-function="copy" title="Copy"> Copy </a>
 								</div>
 						</div>
 						<div class="h5w-group-seperator"></div>
@@ -116,18 +120,18 @@
 							ToDo - Font type select and size
 							</div>
 							<div>
-								<a href="#bold" class="h5w-icon h5w-bold" data-h5w-function="bold" > </a>
-								<a href="#italic" class="h5w-icon h5w-italic" data-h5w-function="italic"> </a>
-								<a href="#underline" class="h5w-icon h5w-underline" data-h5w-function="underline"> </a>
-								<a href="#strike" class="h5w-icon h5w-strike" data-h5w-function="strike"> </a>
-								<a href="#subscript" class="h5w-icon h5w-subscript" data-h5w-function="subscript"> </a>
-								<a href="#superscript" class="h5w-icon h5w-superscript" data-h5w-function="superscript"> </a>
+								<a href="#bold" class="h5w-icon h5w-bold" data-h5w-function="bold" title="Bold"> </a>
+								<a href="#italic" class="h5w-icon h5w-italic" data-h5w-function="italic" title="Italic"> </a>
+								<a href="#underline" class="h5w-icon h5w-underline" data-h5w-function="underline" title="Underline"> </a>
+								<a href="#strike" class="h5w-icon h5w-strike" data-h5w-function="strike" title="Strike"> </a>
+								<a href="#subscript" class="h5w-icon h5w-subscript" data-h5w-function="subscript" title="Subscript"> </a>
+								<a href="#superscript" class="h5w-icon h5w-superscript" data-h5w-function="superscript" title="Superscript"> </a>
 								<a href="#seperator" class="h5w-seperator"></a>
-								<a href="#fontcolor" class="h5w-icon h5w-fontcolor" data-h5w-function="fontcolor"> </a>
-								<a href="#fontcolorpicker" class="h5w-picker h5w-font-picker" data-h5w-destination=".h5w-font-picker" data-h5w-onchange-function="functions.fontcolor"> </a>
-								<a href="#fontcolor" class="h5w-icon h5w-hilitecolor" data-h5w-function="hilitecolor"> </a>
-								<a href="#hilitecolorpicker" class="h5w-picker h5w-hilitecolor-picker" data-h5w-destination=".h5w-hilitecolor-picker" data-h5w-onchange-function="functions.hilitecolor"> </a>
-								<a href="#removeformat" class="h5w-icon h5w-removeformat" data-h5w-function="removeformat"> </a>
+								<a href="#fontcolor" class="h5w-icon h5w-fontcolor" data-h5w-function="fontcolor" title="Set font color"> </a>
+								<a href="#fontcolorpicker" class="h5w-picker h5w-font-picker" data-h5w-destination=".h5w-font-picker" data-h5w-onchange-function="functions.fontcolor" title="Font color picker" > </a>
+								<a href="#fontcolor" class="h5w-icon h5w-hilitecolor" data-h5w-function="hilitecolor" title="Highlight"> </a>
+								<a href="#hilitecolorpicker" class="h5w-picker h5w-hilitecolor-picker" data-h5w-destination=".h5w-hilitecolor-picker" data-h5w-onchange-function="functions.hilitecolor" title="Highlight color picker"> </a>
+								<a href="#removeformat" class="h5w-icon h5w-removeformat" data-h5w-function="removeformat" title="Remove format"> </a>
 								
 							</div>
 						</div>
@@ -136,20 +140,20 @@
 		
 							
 								<a href="#seperator" class="h5w-seperator"></a>
-							<a href="#hrule" class="h5w-icon h5w-hrule" data-h5w-function="hrule"> </a>
-							<a href="#seperator" class="h5w-seperator"></a>
-							<a href="#listordered" class="h5w-icon h5w-listordered" data-h5w-function="listordered"> </a>
-							<a href="#listunordered" class="h5w-icon h5w-listunordered" data-h5w-function="listunordered"> </a>
+							<a href="#hrule" class="h5w-icon h5w-hrule" data-h5w-function="hrule" title="Add rule - hr"> </a>
+							<a href="#seperator" class="h5w-seperator" ></a>
+							<a href="#listordered" class="h5w-icon h5w-listordered" data-h5w-function="listordered" title="List style - numeric"> </a>
+							<a href="#listunordered" class="h5w-icon h5w-listunordered" data-h5w-function="listunordered" title="List style - bull"> </a>
 			
 								<a href="#seperator" class="h5w-seperator" style="clear:both;" ></a>
-							<a href="#justifyleft" class="h5w-icon h5w-justifyleft" data-h5w-function="justifyleft"> </a>
-							<a href="#justifycenter" class="h5w-icon h5w-justifycenter" data-h5w-function="justifycenter"> </a>
-							<a href="#justifyright" class="h5w-icon h5w-justifyright" data-h5w-function="justifyright"> </a>
+							<a href="#justifyleft" class="h5w-icon h5w-justifyleft" data-h5w-function="justifyleft" title="Left justify"> </a>
+							<a href="#justifycenter" class="h5w-icon h5w-justifycenter" data-h5w-function="justifycenter" title="Center justify"> </a>
+							<a href="#justifyright" class="h5w-icon h5w-justifyright" data-h5w-function="justifyright" title="Right justify"> </a>
 					
 								<a href="#seperator" class="h5w-seperator" style="clear:both;" ></a>
-							<a href="#indent" class="h5w-icon h5w-indent" data-h5w-function="indent"> </a>
-							<a href="#outdent" class="h5w-icon h5w-outdent" data-h5w-function="outdent"> </a>
-							<a href="#paragraph" class="h5w-icon h5w-paragraph" data-h5w-function="paragraph"> </a>
+							<a href="#indent" class="h5w-icon h5w-indent" data-h5w-function="indent" title="Indent" > </a>
+							<a href="#outdent" class="h5w-icon h5w-outdent" data-h5w-function="outdent" title="Outdent"> </a>
+							<a href="#paragraph" class="h5w-icon h5w-paragraph" data-h5w-function="paragraph" title="Paragraph"> </a>
 							
 							
 							
@@ -221,12 +225,12 @@
 				<div id="Insert" class="h5w-card">
 					<div class="h5w-section" >
 						<div class="h5w-group">
-							<a href="#tablepicker" class="h5w-icon-nojs h5w-table h5w-tablepicker" data-h5w-onselect-function="functions.table"> Table </a>
+							<a href="#tablepicker" class="h5w-icon-nojs h5w-table h5w-tablepicker" data-h5w-onselect-function="functions.table" title="Insert table"> Table </a>
 							<a href="#seperator" class="h5w-group-seperator"></a>
-							<a href="#insertimage" class="h5w-icon h5w-insertimage" data-h5w-function="insertimage"> Image </a>
+							<a href="#insertimage" class="h5w-icon h5w-insertimage" data-h5w-function="insertimage" title="Insert image"> Image </a>
 							<a href="#seperator" class="h5w-group-seperator"></a>
-							<a href="#createlink" class="h5w-icon h5w-createlink" data-h5w-function="createlink"> Link </a>
-							<a href="#unlink" class="h5w-icon h5w-unlink" data-h5w-function="unlink"> Unlink </a>
+							<a href="#createlink" class="h5w-icon h5w-createlink" data-h5w-function="createlink" title="Insert URL"> Link </a>
+							<a href="#unlink" class="h5w-icon h5w-unlink" data-h5w-function="unlink" title="Remove URL from text"> Unlink </a>
 						</div>
 					</div>
 				
@@ -239,7 +243,7 @@
 					
 					<ul>
 						<li><a href="#h5w-id-content" class="h5w-refresh-editor">Visual</a></li>
-						<li><a href="#h5w-textarea-id" class="h5w-refresh-textarea">Source HTML</a></li>
+						<li><a href="#h5w-textarea-id" class="h5w-refresh-textarea" >Source HTML</a></li>
 					</ul>
 				</div>
 	

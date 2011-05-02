@@ -56,7 +56,8 @@ italic: function(main, icon) {
 				return true;
 			},
 bold: function(main, icon) {;
-				document.execCommand('bold',null,false);
+				document.execCommand('formatBlock',null, "<span style='font-weight:bold;'>");
+				//document.execCommand('bold',null,false);
 				return true;
 			},
 underline: function(main, icon) {;
@@ -144,6 +145,24 @@ cut: function(main, icon) {
 				document.execCommand('cut', false, null);
 				return true;
 			},
+
+indent: function(main, icon) {;
+				document.execCommand('indent',null,false);
+				return true;
+			},
+outdent: function(main, icon) {;
+				document.execCommand('outdent',null,false);
+				return true;
+			},
+removeformat: function(main, icon) {
+				document.execCommand('removeformat',null,false);
+				return true;
+			},
+formatblock: function(main, icon) {
+				document.execCommand('formatBlock',null, "<"+$(icon).attr("href").substr(1)+">");
+				return true;
+			},
+		
 fontcolor: function(main, icon) {	
 			if(typeof(main)=='string'){
 					document.execCommand("ForeColor",false, main);
@@ -375,6 +394,11 @@ onIconClick : function(icon){
 			$(MainHandle).find(".h5w-content").html(options.content);
 			
 			$(MainHandle).find(".h5w-content").bind("keyup change", options.onChange);
+			$(MainHandle).find(".h5w-scroll").click(function(){
+				StyleBox  = $(MainHandle).find($(this).data("h5w-toscroll"));
+
+					StyleBox.animate({"scrollTop" : $(this).data("h5w-scroll")}, "slow");
+			});
 			
 			
 			$(MainHandle).find(".h5w-content").trigger("change");

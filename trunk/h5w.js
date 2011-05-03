@@ -41,6 +41,12 @@ jQuery.fn.extend({
 			
 				return text;
 			},
+			onSelected : function (obj, jTarget, event){
+			
+			},
+			onUnSelected : function (obj, jTarget, event){
+			
+			},
 			content : "",
 			functions : {
 			
@@ -358,7 +364,24 @@ onIconClick : function(icon){
 			
 			
 		}
+		function selectElement(event){
+			var jTarget = $(event.target);
+			if(jTarget.hasClass("h5w-element-selected")){
+				return false;
+			}
+			$(".h5w-content").find(".h5w-element-selected").removeClass("h5w-element-selected");
+			 if ( jTarget.parents('.h5w-content').length ){
+				jTarget.addClass("h5w-element-selected");
 
+				commandToExec = eval("options.onElement"+event.target.tagName.toUpperCase());
+				if(jQuery.isFunction(commandToExec))
+					commandToExec(this, jTarget, event);
+				options.onSelected(this, jTarget, event);
+			 }
+			 options.onUnSelected(this, jTarget, event);
+		return false;
+		}
+		
 		return this.each(function() {
 
 			var MainHandle = this;
@@ -398,9 +421,8 @@ onIconClick : function(icon){
 			jQuery(MainHandle).find(".h5w-texarea").val(options.onVisual(jQuery(MainHandle).find(".h5w-content").html()));
 			picker.prepare(MainHandle);
 			tablepicker.prepare(MainHandle);
-			jQuery(MainHandle).find(".h5w-content").html(options.content);
-			
-			jQuery(MainHandle).find(".h5w-content").bind("keyup change", options.onChange);
+
+			jQuery(MainHandle).find(".h5w-content").html(options.content).bind("keyup change", options.onChange).click(selectElement);
 			jQuery(MainHandle).find(".h5w-scroll").click(function(){
 				StyleBox  = jQuery(MainHandle).find(jQuery(this).data("h5w-toscroll"));
 

@@ -5,15 +5,15 @@
 /******** Part of XVweb project        *************/
 /******** xvweb.googlecode.com         *************/
 /***************************************************/
-(function($) {
-$.fn.extend({
+(function(jQuery) {
+jQuery.fn.extend({
 	h5w : function(options, val) {
 		if(options == "destroy"){
-			$(this).trigger('h5w.destroy');
+			jQuery(this).trigger('h5w.destroy');
 			return this;
 		};
 		if(options == "getContent"){
-			return $(this).find(".h5w-content").html();
+			return jQuery(this).find(".h5w-content").html();
 		};
 		var options = jQuery.extend({
 			onStart: function(teadasd) {
@@ -56,8 +56,7 @@ italic: function(main, icon) {
 				return true;
 			},
 bold: function(main, icon) {;
-				document.execCommand('formatBlock',null, "<span style='font-weight:bold;'>");
-				//document.execCommand('bold',null,false);
+				document.execCommand('bold',null,false);
 				return true;
 			},
 underline: function(main, icon) {;
@@ -94,7 +93,7 @@ hrule: function(main, icon) {;
 			},
 createlink: function(main, icon) {
 				document.execCommand('CreateLink', null , 'changeit');
-				$(main).find(".h5w-content a[href='changeit']").attr({
+				jQuery(main).find(".h5w-content a[href='changeit']").attr({
 href: prompt("Please URL", "http://"),
 target: "_blank"
 				});
@@ -105,10 +104,18 @@ insertimage: function(main, icon) {
 
 				document.execCommand('insertImage', null , 'changeit');
 
-				$(main).find(".h5w-content img[src='changeit']").each(function(){
-					$(this).attr({
-src: prompt("Please image URL", "http://"),
-alt: prompt("Please set alt", "")
+				jQuery(main).find(".h5w-content img[src='changeit']").each(function(){
+				src = jQuery.trim(prompt("Please image URL", "http://"));
+				alt = jQuery.trim(prompt("Please set alt", ""));
+
+				if(!(new RegExp("^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+jQuery").test(src))){
+				alert("URLS is not valid");
+						jQuery(this).remove();
+					return true;
+				}
+					jQuery(this).attr({
+						src: src,
+						alt: alt
 					});
 					this.execCommand("enableObjectResizing", false, false);
 					this.attachEvent("onresizestart", function(e) { e.returnValue = false; }, false);
@@ -159,7 +166,7 @@ removeformat: function(main, icon) {
 				return true;
 			},
 formatblock: function(main, icon) {
-				document.execCommand('formatBlock',null, "<"+$(icon).attr("href").substr(1)+">");
+				document.execCommand('formatBlock',null, "<"+jQuery(icon).attr("href").substr(1)+">");
 				return true;
 			},
 		
@@ -168,7 +175,7 @@ fontcolor: function(main, icon) {
 					document.execCommand("ForeColor",false, main);
 				return false;
 				}
-				document.execCommand("ForeColor",false, $(icon).parent().find(".h5w-font-picker").css("background-color"));
+				document.execCommand("ForeColor",false, jQuery(icon).parent().find(".h5w-font-picker").css("background-color"));
 				return true;
 			},
 hilitecolor: function(main, icon) {	
@@ -176,7 +183,7 @@ hilitecolor: function(main, icon) {
 					document.execCommand("hiliteColor",false, main);
 				return false;
 				}
-				document.execCommand("hiliteColor",false, $(icon).parent().find(".h5w-hilitecolor-picker").css("background-color"));
+				document.execCommand("hiliteColor",false, jQuery(icon).parent().find(".h5w-hilitecolor-picker").css("background-color"));
 				return true;
 			},
 table: function(main, icon, width, height) {
@@ -242,43 +249,43 @@ onIconClick : function(icon){
 			},
 			prepare : function(MainHandle){
 				var onCloseTablePicker = function(event) {
-						if (!($(event.target).is('.h5w-tablepicker-area') || $(event.target).parents('.h5w-tablepicker-area').length)) {
-							$(".h5w-tablepicker-area").hide("slow");
-							$(document.body).unbind("click", onCloseTablePicker);
+						if (!(jQuery(event.target).is('.h5w-tablepicker-area') || jQuery(event.target).parents('.h5w-tablepicker-area').length)) {
+							jQuery(".h5w-tablepicker-area").hide("slow");
+							jQuery(document.body).unbind("click", onCloseTablePicker);
 						}
 					return false;
 					}
-					IHandle = $(this);
+					IHandle = jQuery(this);
 
-				$(MainHandle).find( ".h5w-tablepicker" ).click(function(){
+				jQuery(MainHandle).find( ".h5w-tablepicker" ).click(function(){
 
-					tablepicker.onSelect = eval($(this).data("h5w-onselect-function"));
-					var position = $(this).position();
+					tablepicker.onSelect = eval(jQuery(this).data("h5w-onselect-function"));
+					var position = jQuery(this).position();
 
-					$(MainHandle).find( ".h5w-tablepicker-area" ).css({
-						left:position.left+$(this).width()+5,
-						top: position.top+$(this).height()+5
+					jQuery(MainHandle).find( ".h5w-tablepicker-area" ).css({
+						left:position.left+jQuery(this).width()+5,
+						top: position.top+jQuery(this).height()+5
 					}).html(tablepicker.generate(16,16, true)).show("slow").find("table").delegate('td','mouseover mouseleave', function(e) {
 						if (e.type == 'mouseover') {
-							THandle = $(this).parents("table");
-							THeight = $(this).parent().index();
-							TWidth = $(this).index()+1;
+							THandle = jQuery(this).parents("table");
+							THeight = jQuery(this).parent().index();
+							TWidth = jQuery(this).index()+1;
 								for (n = 0; n <= THeight; ++n){
 									THandle.find("tr:eq("+n+")").find("td:lt("+TWidth+")").addClass("hover");
 								}
 						}
 						else {
-						 $(this).parents("table").find("*").removeClass("hover");
+						 jQuery(this).parents("table").find("*").removeClass("hover");
 						}
 					}).find("td a").click(function(event){
-						tablepicker.onSelect(MainHandle, IHandle, $(this).parent().index(), $(this).parent().parent().index());
-						$(this).parents(".h5w-tablepicker-area").hide("slow");
-						$(document.body).unbind("click", onCloseTablePicker);
+						tablepicker.onSelect(MainHandle, IHandle, jQuery(this).parent().index(), jQuery(this).parent().parent().index());
+						jQuery(this).parents(".h5w-tablepicker-area").hide("slow");
+						jQuery(document.body).unbind("click", onCloseTablePicker);
 
 						return false;
 					});
 					setTimeout(function(){
-						$(document.body).click(onCloseTablePicker);
+						jQuery(document.body).click(onCloseTablePicker);
 					},5)
 					return false;
 				});;
@@ -293,19 +300,19 @@ onIconClick : function(icon){
 				return false;
 			},
 			refreshSwatch : function(main) {
-				var red = $(this).parents(".h5w-picker-area").find( ".h5w-picker-red" ).slider( "value" ),
-				green = $(this).parents(".h5w-picker-area").find( ".h5w-picker-green" ).slider( "value" ),
-				blue = $(this).parents(".h5w-picker-area").find( ".h5w-picker-blue" ).slider( "value" ),
-				opacity = ($(this).parents(".h5w-picker-area").find( ".h5w-picker-opacity" ).slider( "value" )/100)
+				var red = jQuery(this).parents(".h5w-picker-area").find( ".h5w-picker-red" ).slider( "value" ),
+				green = jQuery(this).parents(".h5w-picker-area").find( ".h5w-picker-green" ).slider( "value" ),
+				blue = jQuery(this).parents(".h5w-picker-area").find( ".h5w-picker-blue" ).slider( "value" ),
+				opacity = (jQuery(this).parents(".h5w-picker-area").find( ".h5w-picker-opacity" ).slider( "value" )/100)
 				
 				picker.color = 'rgba('+red+','+green+','+blue+','+opacity+')';
-				$(this).parents(".h5w-picker-area").find( ".h5w-picker-swatch" ).css( "background-color", picker.color);
-				$(picker.changebg).css( "background-color", picker.color);
+				jQuery(this).parents(".h5w-picker-area").find( ".h5w-picker-swatch" ).css( "background-color", picker.color);
+				jQuery(picker.changebg).css( "background-color", picker.color);
 				picker.onChange(picker.color);
 			return true;
 			},
 			prepare : function(MainHandle){
-				$(MainHandle).find( ".h5w-picker-red, .h5w-picker-green, .h5w-picker-blue, .h5w-picker-opacity" ).slider({
+				jQuery(MainHandle).find( ".h5w-picker-red, .h5w-picker-green, .h5w-picker-blue, .h5w-picker-opacity" ).slider({
 					orientation: "horizontal",
 					range: "min",
 					max: 255,
@@ -313,31 +320,31 @@ onIconClick : function(icon){
 					slide: picker.refreshSwatch,
 					change: picker.refreshSwatch
 				});
-				$(MainHandle).find( ".h5w-picker-red" ).slider( "value", 255 );
-				$(MainHandle).find( ".h5w-picker-green" ).slider( "value", 140 );
-				$(MainHandle).find( ".h5w-picker-green" ).slider( "value", 140 );
-				$(MainHandle).find( ".h5w-picker-opacity" ).slider({
+				jQuery(MainHandle).find( ".h5w-picker-red" ).slider( "value", 255 );
+				jQuery(MainHandle).find( ".h5w-picker-green" ).slider( "value", 140 );
+				jQuery(MainHandle).find( ".h5w-picker-green" ).slider( "value", 140 );
+				jQuery(MainHandle).find( ".h5w-picker-opacity" ).slider({
 						max: 100,
 						value: 100,
 					});
 				
-				$(MainHandle).find( ".h5w-picker" ).click(function(){
-					var position = $(this).position();
-					picker.changebg = $(this).data("h5w-destination");
-					picker.onChange = eval($(this).data("h5w-onchange-function"));
-					$(MainHandle).find( ".h5w-picker-area" ).css({
-						left:position.left+$(this).width()+5,
-						top: position.top+$(this).height()+5
+				jQuery(MainHandle).find( ".h5w-picker" ).click(function(){
+					var position = jQuery(this).position();
+					picker.changebg = jQuery(this).data("h5w-destination");
+					picker.onChange = eval(jQuery(this).data("h5w-onchange-function"));
+					jQuery(MainHandle).find( ".h5w-picker-area" ).css({
+						left:position.left+jQuery(this).width()+5,
+						top: position.top+jQuery(this).height()+5
 					}).show("slow");
 					var onClosePicker = function(event) {
-						if (!($(event.target).is('.h5w-picker-area') || $(event.target).parents('.h5w-picker-area').length)) {
-							$(".h5w-picker-area").hide("slow");
-							$(document.body).unbind("click", onClosePicker);
+						if (!(jQuery(event.target).is('.h5w-picker-area') || jQuery(event.target).parents('.h5w-picker-area').length)) {
+							jQuery(".h5w-picker-area").hide("slow");
+							jQuery(document.body).unbind("click", onClosePicker);
 						}
 					return false;
 					}
 					setTimeout(function(){
-						$(document.body).click(onClosePicker);
+						jQuery(document.body).click(onClosePicker);
 					},5)
 					
 				});;
@@ -355,65 +362,65 @@ onIconClick : function(icon){
 		return this.each(function() {
 
 			var MainHandle = this;
-			$(MainHandle).bind('h5w.destroy', destroy);
+			jQuery(MainHandle).bind('h5w.destroy', destroy);
 
-			$(MainHandle).find('.h5w-tabs').tabs({
+			jQuery(MainHandle).find('.h5w-tabs').tabs({
 
 			}).find( ".ui-tabs-nav" ).sortable({ axis: "x" });
-			$(MainHandle).find(".h5w-icon").bind("click", function(){
-				FunName = $(this).data("h5w-function");
+			jQuery(MainHandle).find(".h5w-icon").bind("click", function(){
+				FunName = jQuery(this).data("h5w-function");
 				ToUseFunction = eval("functions."+FunName);
-				if($.isFunction(ToUseFunction))
+				if(jQuery.isFunction(ToUseFunction))
 				ToUseFunction(MainHandle, this); else 
 					alert("Not found function: "+FunName);
-				$(MainHandle).find(".h5w-content").trigger("change");
+				jQuery(MainHandle).find(".h5w-content").trigger("change");
 				options.onUseButtons(this, FunName, ToUseFunction);
 				return false;
 			});
-			$(document).keydown(function(event) {
+			jQuery(document).keydown(function(event) {
 				  if(event.keyCode == 9){
 				  document.execCommand('insertHTML', false, "\t");
 					event.preventDefault();
 					event.returnValue = false;
 				 }
 				});
-			$(MainHandle).find( ".h5w-tabs-bottom" ).tabs();
-			$(MainHandle).find( ".h5w-tabs-bottom .ui-tabs-nav, .h5w-tabs-bottom .ui-tabs-nav > *" )
+			jQuery(MainHandle).find( ".h5w-tabs-bottom" ).tabs();
+			jQuery(MainHandle).find( ".h5w-tabs-bottom .ui-tabs-nav, .h5w-tabs-bottom .ui-tabs-nav > *" )
 				.removeClass( "ui-corner-all ui-corner-top" )
 					.addClass( "ui-corner-bottom" );
-			$(MainHandle).find(".h5w-refresh-textarea").click(function(){
-					$(MainHandle).find(".h5w-texarea").val(options.onTextarea($(MainHandle).find(".h5w-content").html()));
+			jQuery(MainHandle).find(".h5w-refresh-textarea").click(function(){
+					jQuery(MainHandle).find(".h5w-texarea").val(options.onTextarea(jQuery(MainHandle).find(".h5w-content").html()));
 			});
-			$(MainHandle).find(".h5w-refresh-editor").click(function(){
-					$(MainHandle).find(".h5w-content").html(options.onVisual($(MainHandle).find(".h5w-texarea").val())).trigger("change");
+			jQuery(MainHandle).find(".h5w-refresh-editor").click(function(){
+					jQuery(MainHandle).find(".h5w-content").html(options.onVisual(jQuery(MainHandle).find(".h5w-texarea").val())).trigger("change");
 					
 			});
-			$(MainHandle).find(".h5w-texarea").val(options.onVisual($(MainHandle).find(".h5w-content").html()));
+			jQuery(MainHandle).find(".h5w-texarea").val(options.onVisual(jQuery(MainHandle).find(".h5w-content").html()));
 			picker.prepare(MainHandle);
 			tablepicker.prepare(MainHandle);
-			$(MainHandle).find(".h5w-content").html(options.content);
+			jQuery(MainHandle).find(".h5w-content").html(options.content);
 			
-			$(MainHandle).find(".h5w-content").bind("keyup change", options.onChange);
-			$(MainHandle).find(".h5w-scroll").click(function(){
-				StyleBox  = $(MainHandle).find($(this).data("h5w-toscroll"));
+			jQuery(MainHandle).find(".h5w-content").bind("keyup change", options.onChange);
+			jQuery(MainHandle).find(".h5w-scroll").click(function(){
+				StyleBox  = jQuery(MainHandle).find(jQuery(this).data("h5w-toscroll"));
 
-					StyleBox.animate({"scrollTop" : $(this).data("h5w-scroll")}, "slow");
+					StyleBox.animate({"scrollTop" : jQuery(this).data("h5w-scroll")}, "slow");
 			});
 			
 			
-			$(MainHandle).find(".h5w-content").trigger("change");
+			jQuery(MainHandle).find(".h5w-content").trigger("change");
 			options.onLoad(this);
 		});
 	},
 	getContent : function(){
-		$(this).find(".h5w-refresh-textarea").trigger("click");
-		return $(this).find(".h5w-texarea").val().replace("<!--?php", "<?php");
+		jQuery(this).find(".h5w-refresh-textarea").trigger("click");
+		return jQuery(this).find(".h5w-texarea").val().replace("<!--?php", "<?php");
 	},
 	setContent : function(cont){
-		$(this).find(".h5w-content").html(cont).trigger("change");
+		jQuery(this).find(".h5w-content").html(cont).trigger("change");
 	},
 	editor : function(){
-		return $(this).find(".h5w-content");
+		return jQuery(this).find(".h5w-content");
 	}
 	
 	})

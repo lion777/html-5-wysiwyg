@@ -19,7 +19,7 @@
 		<script type="text/javascript">
 			$(function(){
 			 
-					if(location.protocol == "file:"){
+				if(location.protocol == "file:"){
 					var Content = "You must run this on http server";
 					 alert(Content);
 					}else {
@@ -29,62 +29,63 @@
 								async: false
 						}).responseText);
 				}
-				function parseReturnedXML(strToParse, strStart){
-					var str = strToParse.match(new RegExp("<"+strStart+"[^<]*(?:(?!<\/"+strStart+">)<[^<]*)*<\/"+strStart+">", "gi"));
-					if (str != null) 
-					return str;
-					return [];
-				}
-				function htmlspecialchars(p_string) {
-					p_string = p_string.replace(/&/g, '&amp;');
-					p_string = p_string.replace(/</g, '&lt;');
-					p_string = p_string.replace(/>/g, '&gt;');
-					return p_string;
-				};
-				function htmlspecialchars_decode(p_string) {
-					p_string = p_string.replace(/&amp;/g, '&');
-					p_string = p_string.replace(/&lt;/g, '<');
-					p_string = p_string.replace(/&gt;/g, '>');
-					return p_string;
-				};
-
-				function parserxvtext(text){
-					var XVtags = ["include", "php", "delphi", "cpp", "java", "java5", "css", "javascript", "code", "vars", "file", "script"];
-					$.each(XVtags, function(index, value) {
-						$.each(parseReturnedXML(text, value), function(indexz, valuez) {
-							text = text.replace(valuez, "<pre class='xv-to-remove xv-without-html'>"+htmlspecialchars(valuez)+"</pre>");
-						})
-					});
-					return text;
-				}
-
-
-				$("#demos").h5w({
-				content : parserxvtext(Content) ,
-					onChange : function(){
+				// This class is example - i use this to my project - XVweb
+				var XVwebFormater = {
+					parseReturnedXML : function(strToParse, strStart){
+											var str = strToParse.match(new RegExp("<"+strStart+"[^<]*(?:(?!<\/"+strStart+">)<[^<]*)*<\/"+strStart+">", "gi"));
+											if (str != null) 
+											return str;
+											return [];
+										},
+					htmlspecialchars : function(p_string) {
+											p_string = p_string.replace(/&/g, '&amp;');
+											p_string = p_string.replace(/</g, '&lt;');
+											p_string = p_string.replace(/>/g, '&gt;');
+											return p_string;
+										},
+					htmlspecialchars_decode : function(p_string) {
+												p_string = p_string.replace(/&amp;/g, '&');
+												p_string = p_string.replace(/&lt;/g, '<');
+												p_string = p_string.replace(/&gt;/g, '>');
+												return p_string;
+											},
+					parse : 			function(text){
+											var XVtags = ["include", "php", "delphi", "cpp", "java", "java5", "css", "javascript", "code", "vars", "file", "script"];
+											$.each(XVtags, function(index, value) {
+												$.each(XVwebFormater.parseReturnedXML(text, value), function(indexz, valuez) {
+													text = text.replace(valuez, "<pre class='xv-to-remove xv-without-html'>"+XVwebFormater.htmlspecialchars(valuez)+"</pre>");
+												});
+											});
+											return text;
+										},
+					DeleteFormat    : function(){
 						$(this).find(".xv-without-html").html(function(index, oldhtml){
 							return oldhtml.replace(/(<([^>]+)>)/ig,"");
 						});
 					},
-					
-					onTextarea : function(text){
+					EditorToHTML : function(text){
 						matchResult = text.match(new RegExp("<pre class=\"xv-to-remove[^<]*(?:(?!<\/pre>)<[^<]*)*<\/pre>", "gi"));
 						if(matchResult != null){
 							$.each(matchResult, function(index, value){
-								text = text.replace(value, htmlspecialchars_decode(value.replace(/<pre(.*?)>/, "").replace(/<\/pre(.*?)>/, "")));
+								text = text.replace(value, XVwebFormater.htmlspecialchars_decode(value.replace(/<pre(.*?)>/, "").replace(/<\/pre(.*?)>/, "")));
 							});
 						};
 						
 						return text;
-					},
-					onVisual : function(text){
-						return parserxvtext(text);
-					},
-	
+					}
+				};
+				
+
+				$("#demos").h5w({
+					content :  XVwebFormater.parse(Content) ,	// here you can set content for editor
+					onChange :  XVwebFormater.DeleteFormat,		// you can delete this line
+					onTextarea : XVwebFormater.EditorToHTML, 	// you can delete this line
+					onVisual : XVwebFormater.parse, 			// you can delete this line
 				});
 
 				$(".getresult").click(function(){
-					$("#result").html($("#demos").getContent());
+						resultEditHTML = $("#demos").getContent();
+						$("#result").html(resultEditHTML);
 					return false;
 				});
 			

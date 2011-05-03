@@ -60,8 +60,9 @@
 	display: block;
 	float: left;
 	font-weight: bold;
-	height: 20px;
-	width: 20px;
+	height: 16px;
+	width: 16px;
+	text-align:center;
 }
 .h5w-icon:hover , .h5w-icon-nojs:hover {
 	background-color: #ffdc6e;
@@ -115,6 +116,21 @@ height: 36px;
 	top: 1px;
 	width: 400px;
 }
+.h5w-font-picker-area {
+	background: #FFF;
+	display: none;
+	left: 1px;
+	position: absolute;
+	top: 1px;
+}
+.h5w-fontsize-picker-area {
+	background: #FFF;
+	display: none;
+	left: 1px;
+	position: absolute;
+	top: 1px;
+	width: 400px;
+}
 .h5w-picker-red, .h5w-picker-green, .h5w-picker-blue , .h5w-picker-opacity {
 	clear: left;
 	float: left;
@@ -140,7 +156,7 @@ height: 36px;
 .h5w-picker-green .ui-slider-handle {
 	border-color: #8ae234;
 }
-.h5w-picker-blue .ui-slider-range {
+.h5w-picker-blue .ui-slider-range{
 	background: #729fcf;
 }
 .h5w-picker-blue .ui-slider-handle {
@@ -152,6 +168,12 @@ height: 36px;
 .h5w-picker-opacity .ui-slider-handle {
 	border-color: #E6E6E6;
 }
+
+.h5w-fontsize-picker-size {
+	background: #8ae234;
+}
+
+
 .h5w-tablepicker-area {
 	background: #FFF;
 	display: none;
@@ -233,6 +255,15 @@ height: 36px;
 .h5w-insertimage {
 	background: url(../img/insertimage.png) center center no-repeat;
 }
+.h5w-undo {
+	background: url(../img/undo.png) center center no-repeat;
+}
+.h5w-redo {
+	background: url(../img/redo.png) center center no-repeat;
+}
+.h5w-selectall {
+	background: url(../img/selectall.png) center center no-repeat;
+}
 .h5w-indent {
 	background: url(../img/indent.png) center center no-repeat;
 }
@@ -310,4 +341,74 @@ height: 36px;
 	padding-top: 46px;
 	text-align: center;
 	width: 48px;
+}
+.h5w-fontsize {
+	background: #FFF url(../img/fontsize.png) center left no-repeat;
+	width: 32px;
+	text-align:right;
+	padding-right:3px;
+	font-size: 12px;
+	height:16px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border: 1px solid #9C9C9C;
+	border-right:none;
+}
+.h5w-fonttype {
+	background: #FFF url(../img/fonttype.png) center left no-repeat;
+	width: 120px;
+	text-align:right;
+	padding-right:3px;
+	font-size: 12px;
+	height:16px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border: 1px solid #9C9C9C;
+	border-right:none;
+}
+.h5w-fontsize-picker  , .h5w-fonttype-picker{
+	display: block;
+	float: left;
+	font-weight: bold;
+	height: 16px;
+	width: 16px;
+	text-align:center;
+	background:#FFF;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border: 1px solid #9C9C9C;
+	border-left:none;
+}
+.h5w-inserthtml {
+	background:none;
+	width:120px;
+	height:50px;
+}
+.h5w-inserthtml input, textarea{
+	margin-top:15px;
+	width:100px;
+}
+.h5w-style-inserthtml {
+	width:90%;
+	overflow: hidden;
+	height:48px;
+}
+.h5w-font-picker-area  a{
+	display:block;
+	float:none;
+	width:100px;
+	height:16px;
+	color: #000;
 }

@@ -48,6 +48,11 @@
 }
 .h5w-group-caption {
 }
+.h5w-content .h5w-element-selected {
+	-webkit-box-shadow: 0px 0px 20px #ffcc00;
+	-moz-box-shadow: 0px 0px 20px #ffcc00;
+	box-shadow: 0px 0px 20px #ffcc00;
+}
 .h5w-group:hover .h5w-group-caption {
 	color: #707070;
 }

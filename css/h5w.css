@@ -72,7 +72,7 @@
 	webkit-border-radius: 3px;
 }
 .h5w-style-selection {
-width: 465px; 
+width: 500px; 
 height: 100%; 
 overflow: hidden;
 }
@@ -106,7 +106,7 @@ height: 36px;
 	height: 500px;
 	padding: 5px;
 	padding-bottom: 30px;
-	width: 100%;
+	width:100%;
 }
 .h5w-picker-area {
 	background: #FFF;
@@ -396,12 +396,12 @@ height: 36px;
 	width:120px;
 	height:50px;
 }
-.h5w-inserthtml input, textarea{
+.h5w-inserthtml input, .h5w-inserthtml textarea{
 	margin-top:15px;
 	width:100px;
 }
 .h5w-style-inserthtml {
-	width:90%;
+	width: 750px;
 	overflow: hidden;
 	height:48px;
 }

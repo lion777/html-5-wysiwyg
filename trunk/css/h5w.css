@@ -24,6 +24,7 @@
 .h5w-main {
 	font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
 	font-size: 10px;
+	min-width:1000px;
 }
 .h5w-card {
 	height: 50px;

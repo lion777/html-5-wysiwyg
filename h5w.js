@@ -1,10 +1,11 @@
-﻿/***************************************************/
-/******** Author: Krzysztof Bednarczyk *************/
-/******** License: LGPL                *************/
-/******** http://bordeux.NET           *************/
-/******** Part of XVweb project        *************/
-/******** xvweb.googlecode.com         *************/
-/***************************************************/
+﻿/*****************************************************/
+/******** Author: Krzysztof Bednarczyk   *************/
+/******** License: LGPL                  *************/
+/******** http://bordeux.NET             *************/
+/******** Part of XVweb project          *************/
+/******** html-5-wysiwyg.googlecode.com  *************/
+/******** part: xvweb.googlecode.com     *************/
+/*****************************************************/
 (function (jQuery) {
 		jQuery.fn.extend({
 				h5w : function (options, val) {
@@ -69,7 +70,7 @@
 								if (typeof(main) == 'number') {
 									toSizeFont = main;
 								}else{
-									toSizeFont = $(icon).text();
+									toSizeFont = jQuery(icon).text();
 								};
 									jQuery(".h5w-content font[size]").removeAttr("size").css("font-size", toSizeFont+"px");
 								return false;
@@ -103,7 +104,7 @@
 								return true;
 							},
 							inserthtml : function (main, icon) {
-								document.execCommand('insertHTML', null, $(icon).html());
+								document.execCommand('insertHTML', null, jQuery(icon).html());
 								return true;
 							}, 
 							hrule : function (main, icon) {
@@ -111,15 +112,17 @@
 								return true;
 							},
 							redo : function (main, icon) {
+								jQuery(main).find(".h5w-content").focus();
 								document.execCommand('redo' , false, null);
 								return false;
 							},
 							selectall : function (main, icon) {
+								jQuery(main).find(".h5w-content").focus();
 								document.execCommand('SelectAll', false, null);
 								return true;
 							}, 
 							undo : function (main, icon) {
-								//alert($(main).find(".h5w-content")[0]);
+								jQuery(main).find(".h5w-content").focus();
 								document.execCommand('undo' , false, null);
 								return false;
 							}, 
@@ -162,8 +165,8 @@
 								return true;
 							},
 							fonttype : function (main, icon) {
-								$(main).find(".h5w-fonttype").html($(icon).find("span").clone());
-								document.execCommand('fontName', false, $(icon).find("span").css("font-family"));
+								jQuery(main).find(".h5w-fonttype").html(jQuery(icon).find("span").clone());
+								document.execCommand('fontName', false, jQuery(icon).find("span").css("font-family"));
 								return true;
 							}, 
 							
@@ -386,7 +389,7 @@
 									jQuery(MainHandle).find(".h5w-fontsize-picker-size").slider("destroy").slider({
 											max : 73, 
 											min : 8, 
-											value : $(sizepicker.changesize).text(), 
+											value : jQuery(sizepicker.changesize).text(), 
 											slide : sizepicker.refreshSize, 
 											change : sizepicker.refreshSize
 										});
@@ -457,19 +460,19 @@
 						
 					};
 					function selectElement(event) {
-						var jTarget = $(event.target);
+						var jTarget = jQuery(event.target);
 						if (jTarget.hasClass("h5w-element-selected")) {
 							return false;
 						};
 						
-						$(".h5w-element-selected").removeClass("h5w-element-selected");
+						jQuery(".h5w-element-selected").removeClass("h5w-element-selected");
 						
 						if (jTarget.parents('.h5w-content').length || jTarget.is(".h5w-content")) {
 							jTarget.addClass("h5w-element-selected");
 							FontFamily = jTarget.css("font-family");
 							FontShortName = FontFamily.split(",");
-							$(".h5w-fonttype span").css("font-family" , FontFamily).text(FontShortName[0]); // tutaj też się da lepiej ;]
-							$(".h5w-fontsize").text(jTarget.css("font-size").replace("px", ""));  // tutaj też
+							jQuery(".h5w-fonttype span").css("font-family" , FontFamily).text(FontShortName[0]); // tutaj też się da lepiej ;]
+							jQuery(".h5w-fontsize").text(jTarget.css("font-size").replace("px", ""));  // tutaj też
 							
 							commandToExec = eval("options.onElement" + event.target.tagName.toUpperCase());
 							if (jQuery.isFunction(commandToExec)) {

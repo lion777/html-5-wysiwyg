@@ -64,15 +64,15 @@
 								return true;
 							}, 
 							fontsize : function (main, icon) {
-							
+								
 								document.execCommand("fontSize", false, 1);
 								toSizeFont = 12;
 								if (typeof(main) == 'number') {
 									toSizeFont = main;
-								}else{
+								} else {
 									toSizeFont = jQuery(icon).text();
 								};
-									jQuery(".h5w-content font[size]").removeAttr("size").css("font-size", toSizeFont+"px");
+								jQuery(".h5w-content font[size]").removeAttr("size").css("font-size", toSizeFont + "px");
 								return false;
 							}, 
 							underline : function (main, icon) {
@@ -102,7 +102,7 @@
 							listunordered : function (main, icon) {
 								document.execCommand('insertUnorderedList', null, false);
 								return true;
-							},
+							}, 
 							inserthtml : function (main, icon) {
 								document.execCommand('insertHTML', null, jQuery(icon).html());
 								return true;
@@ -110,12 +110,14 @@
 							hrule : function (main, icon) {
 								document.execCommand('insertHorizontalRule', null, false);
 								return true;
-							},
+							}, 
 							redo : function (main, icon) {
 								jQuery(main).find(".h5w-content").focus();
-								document.execCommand('redo' , false, null);
+								if (!document.execCommand('redo', false, null)) {
+									alert("Your browser does not support redo method! Please use shortcut CTRL + Y");
+								};
 								return false;
-							},
+							}, 
 							selectall : function (main, icon) {
 								jQuery(main).find(".h5w-content").focus();
 								document.execCommand('SelectAll', false, null);
@@ -123,7 +125,9 @@
 							}, 
 							undo : function (main, icon) {
 								jQuery(main).find(".h5w-content").focus();
-								document.execCommand('undo' , false, null);
+								if (!document.execCommand('undo', false, null)) {
+									alert("Your browser does not support undo method! Please use shortcut CTRL + Z");
+								};
 								return false;
 							}, 
 							createlink : function (main, icon) {
@@ -163,7 +167,7 @@
 							unlink : function (main, icon) {
 								document.execCommand('Unlink', false, null);
 								return true;
-							},
+							}, 
 							fonttype : function (main, icon) {
 								jQuery(main).find(".h5w-fonttype").html(jQuery(icon).find("span").clone());
 								document.execCommand('fontName', false, jQuery(icon).find("span").css("font-family"));
@@ -183,15 +187,21 @@
 								return true;
 							}, 
 							paste : function (main, icon) {
-								document.execCommand('paste', false, null);
+								if (!document.execCommand('paste', false, null)) {
+									alert("Your browser does not support paste method! Please use shortcut CTRL + V");
+								};
 								return true;
 							}, 
 							copy : function (main, icon) {
-								document.execCommand('copy', false, null);
+								if (!document.execCommand('copy', false, null)) {
+									alert("Your browser does not support copy method! Please use shortcut CTRL + C");
+								};
 								return true;
 							}, 
 							cut : function (main, icon) {
-								document.execCommand('cut', false, null);
+								if (!document.execCommand('cut', false, null)) {
+									alert("Your browser does not support cut method! Please use shortcut CTRL + X");
+								};
 								return true;
 							}, 
 							
@@ -214,14 +224,14 @@
 							
 							fontcolor : function (main, icon) {
 								document.execCommand("ForeColor", false, "#FFF");
-							
+								
 								if (typeof(main) == 'string') {
 									fontToSetColor = main;
-								}else{
-									fontToSetColor =jQuery(icon).parent().find(".h5w-font-picker").css("background-color");
+								} else {
+									fontToSetColor = jQuery(icon).parent().find(".h5w-font-picker").css("background-color");
 								};
-									jQuery(".h5w-content font[color]").removeAttr("color").css("color", fontToSetColor);
-						
+								jQuery(".h5w-content font[color]").removeAttr("color").css("color", fontToSetColor);
+								
 								return true;
 							}, 
 							hilitecolor : function (main, icon) {
@@ -416,7 +426,7 @@
 							
 						}
 						
-					};	
+					};
 					typepicker = {
 						changeType : ".something", 
 						fontType : "Arial", 
@@ -428,8 +438,6 @@
 							
 							jQuery(MainHandle).find(".h5w-fonttype-picker").click(function () {
 									typepicker.changeType = jQuery(this).data("h5w-destination");
-									
-
 									
 									var position = jQuery(this).position();
 									
@@ -471,8 +479,8 @@
 							jTarget.addClass("h5w-element-selected");
 							FontFamily = jTarget.css("font-family");
 							FontShortName = FontFamily.split(",");
-							jQuery(".h5w-fonttype span").css("font-family" , FontFamily).text(FontShortName[0]); // tutaj też się da lepiej ;]
-							jQuery(".h5w-fontsize").text(jTarget.css("font-size").replace("px", ""));  // tutaj też
+							jQuery(".h5w-fonttype span").css("font-family", FontFamily).text(FontShortName[0]); // tutaj też się da lepiej ;]
+							jQuery(".h5w-fontsize").text(jTarget.css("font-size").replace("px", "")); // tutaj też
 							
 							commandToExec = eval("options.onElement" + event.target.tagName.toUpperCase());
 							if (jQuery.isFunction(commandToExec)) {

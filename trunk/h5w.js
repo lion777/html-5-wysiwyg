@@ -243,7 +243,9 @@
 								return true;
 							}, 
 							table : function (main, icon, width, height) {
-								document.execCommand('insertHTML', false, tablepicker.generate(16, 16));
+								document.execCommand('insertHTML', false, tablepicker.generate(width, height));
+								
+								//jQuery(main).find(".h5w-content table td" ).resizable();
 								return true;
 							}, 
 							onIconClick : function (icon) {

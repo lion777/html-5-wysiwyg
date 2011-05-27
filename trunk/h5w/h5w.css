@@ -413,3 +413,59 @@ height: 36px;
 	height:16px;
 	color: #000;
 }
+.h5w-context-menu {
+	background: rgba(226,226,226, 0.85); 
+	min-width: 110px; 
+	position:absolute; 
+	display:none;
+	border: 1px solid #ABABAB;
+	padding:0px;
+}
+
+.h5w-context-menu ul{
+	list-style:none;
+	padding:0px;
+	margin:0px;
+}
+.h5w-context-menu li {
+	line-height: 16px;
+	color: #333;
+	font-size: 14px;
+	padding-left: 10px;
+}
+
+.h5w-context-menu {}
+.h5w-context-menu ul li:hover {background-color:#F90; position:relative;}
+.h5w-context-menu ul ul {display:none; position:absolute; left:110px; top:5px; border:#fff solid; border-width:1px; background: rgba(236,236,236, 0.95);  }
+.h5w-context-menu ul li:hover ul {display:block;}
+.h5w-context-menu ul ul li { width:200px; float:left; display:inline; border:none;}
+.h5w-context-menu ul ul li:hover {text-decoration:underline; border:none;}
+.h5w-context-menu li:hover ul li ul {display:none;}
+.h5w-context-menu ul ul li ul {left:110px; background-color:#0099CC;}
+.h5w-context-menu ul ul li:hover ul {display:block;}
+
+.h5w-context-menu a {
+color : #000;
+text-decoration: none;
+width: 100%;
+height: 100%;
+display:block;
+padding:3px;
+padding-left: 17px;
+margin:0px;
+}
+.h5w-context-menu span{
+font-size:10px;
+padding-left:20px;
+
+}
+.h5w-context-menu .h5w-c-delete {background: url(../img/delete.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-cut {background: url(../img/cut.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-copy {background: url(../img/copy.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-paste {background: url(../img/paste_m.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-quit {background: url(../img/quit.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-attributes {background: url(../img/attributes.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-add {background: url(../img/add.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-attrx {background: url(../img/options.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-options {background: url(../img/optionsx.png) center left no-repeat;}
+.h5w-context-menu .h5w-c-seperator {border-top:1px solid #9C9C9C;}

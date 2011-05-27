@@ -49,10 +49,50 @@
 							content : "", 
 							functions : {
 								
+							}, 
+							
+							contextMenu : {
+								table : function () {
+									//alert("return true")
+								}
+								
 							}
 							
 						}, options);
 					
+					var DefineddContextMenu = {
+						tableElement : function (ox,oy) {
+							var hOContextMenu = $(".h5w-context-menu .h5w-c-options-element").html("");
+							hOContextMenu.append(
+								$("<li>").html(
+									$("<a>").attr({
+											"href" : "#", 
+											"class" : "h5w-c-deleterow"
+										}).text("Delete row").click(function () {
+										if($(ox.target).is("tr")){
+											$(ox.target).remove();
+										}else{
+												$(ox.target).parents("tr").remove();
+											}
+										})));
+							hOContextMenu.append(
+								$("<li>").html(
+									$("<a>").attr({
+											"href" : "#", 
+											"class" : "h5w-c-deletecell"
+										}).text("Delete cell").click(function () {
+										if($(ox.target).is("td")){
+											$(ox.target).remove();
+										}
+										})));
+							
+						}
+					}
+					var contextMenu = {
+						tr : DefineddContextMenu.tableElement, 
+						td : DefineddContextMenu.tableElement, 
+						
+					};
 					var functions = jQuery.extend({
 							italic : function (main, icon) {
 								
@@ -188,19 +228,19 @@
 							}, 
 							paste : function (main, icon) {
 								if (!document.execCommand('paste', false, null)) {
-									alert("Your browser does not support paste method! Please use shortcut CTRL + V");
+									alert("Your browser does not support paste method! Please use shortcut CTRL + V or push left ctrl and right click");
 								};
 								return true;
 							}, 
 							copy : function (main, icon) {
 								if (!document.execCommand('copy', false, null)) {
-									alert("Your browser does not support copy method! Please use shortcut CTRL + C");
+									alert("Your browser does not support copy method! Please use shortcut CTRL + C or push left ctrl and right click");
 								};
 								return true;
 							}, 
 							cut : function (main, icon) {
 								if (!document.execCommand('cut', false, null)) {
-									alert("Your browser does not support cut method! Please use shortcut CTRL + X");
+									alert("Your browser does not support cut method! Please use shortcut CTRL + X or push left ctrl and right click");
 								};
 								return true;
 							}, 
@@ -215,6 +255,10 @@
 							}, 
 							removeformat : function (main, icon) {
 								document.execCommand('removeformat', null, false);
+								return true;
+							}, 
+							"delete" : function (main, icon) {
+								document.execCommand('delete', null, false);
 								return true;
 							}, 
 							formatblock : function (main, icon) {
@@ -504,7 +548,7 @@
 								}).find(".ui-tabs-nav").sortable({
 									axis : "x"
 								});
-							jQuery(MainHandle).find(".h5w-icon").bind("click", function () {
+							jQuery(MainHandle).find(".h5w-icon , .h5w-icon-js").bind("click", function () {
 									FunName = jQuery(this).data("h5w-function");
 									ToUseFunction = eval("functions." + FunName);
 									if (jQuery.isFunction(ToUseFunction)) {
@@ -514,6 +558,9 @@
 									};
 									jQuery(MainHandle).find(".h5w-content").trigger("change");
 									options.onUseButtons(this, FunName, ToUseFunction);
+									if (jQuery(this).data("h5w-result")) 
+										return true;
+									
 									return false;
 								});
 							jQuery(document).keydown(function (event) {
@@ -540,7 +587,68 @@
 							sizepicker.prepare(MainHandle);
 							typepicker.prepare(MainHandle);
 							
-							jQuery(MainHandle).find(".h5w-content").html(options.content).bind("keyup change", options.onChange).click(selectElement);
+							jQuery(MainHandle).find(".h5w-content").html(options.content).bind("keyup change", options.onChange).click(selectElement).bind('contextmenu', function (e) {
+									if (e.ctrlKey) 
+										return true;
+									
+									$(MainHandle).find(".h5w-context-menu").css({
+											left : e.pageX, 
+											top : e.pageY, 
+											zIndex : '101'
+										}).show().click("click", function () {
+											$(this).hide("slow");
+										});
+									var onHideContentMenu = function (de) {
+										if ($(de.target).is(".h5w-context-menu") || $(de.target).parents(".h5w-context-menu").length) {
+											
+										} else {
+											$(".h5w-context-menu").hide("slow");
+											$(document.body).unbind("mousedown", onHideContentMenu);
+										}
+									};
+									$(document.body).mousedown(onHideContentMenu);
+									
+									ToUseFunction = eval("contextMenu." + (e.target.tagName.toLowerCase()));
+									if (jQuery.isFunction(ToUseFunction)) {
+										ToUseFunction(e, this);
+									}
+									
+									ToUseFunction = eval("options.contextMenu." + (e.target.tagName.toLowerCase()));
+									if (jQuery.isFunction(ToUseFunction)) {
+										ToUseFunction(e, this);
+									}
+									var HContextAttr = $(e.target);
+									if (!HContextAttr.is(".h5w-content")) {
+										var hContextMenu = $(".h5w-context-menu .h5w-c-attr").html("");
+										hContextMenu.append(
+											$("<li>").html(
+												$("<a>").attr({
+														"href" : "#", 
+														"class" : "h5w-c-add"
+													}).text("Add").click(function () {
+														HContextAttr.attr(
+															prompt("Insert attr name: "), 
+															prompt("Insert attr value: "));
+														return true;
+													})));
+										
+										for (var i = 0, attrs = e.target.attributes, l = attrs.length; i < l; i++) {
+											hContextMenu.append(
+												$("<li>").html(
+													$("<a>").attr({
+															"href" : "#", 
+															"class" : "h5w-c-attrx"
+														}).text(attrs.item(i).nodeName).click(function () {
+															resValue = prompt("Set attribute " + $(this).text() + " : ", HContextAttr.attr($(this).text()));
+															HContextAttr.attr($(this).text(), resValue);
+															if (resValue == "") 
+																HContextAttr.removeAttr($(this).text());
+															return true;
+														})));
+										};
+									}
+									return false;
+								});
 							jQuery(MainHandle).find(".h5w-scroll").click(function () {
 									StyleBox = jQuery(MainHandle).find(jQuery(this).data("h5w-toscroll"));
 									

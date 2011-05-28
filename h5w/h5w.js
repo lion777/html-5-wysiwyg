@@ -87,7 +87,7 @@
 										})));
 							
 						}
-					}
+					};
 					var contextMenu = {
 						tr : DefineddContextMenu.tableElement, 
 						td : DefineddContextMenu.tableElement, 
@@ -558,8 +558,9 @@
 									};
 									jQuery(MainHandle).find(".h5w-content").trigger("change");
 									options.onUseButtons(this, FunName, ToUseFunction);
-									if (jQuery(this).data("h5w-result")) 
+									if (jQuery(this).data("h5w-result")) {
 										return true;
+									};
 									
 									return false;
 								});
@@ -588,8 +589,9 @@
 							typepicker.prepare(MainHandle);
 							
 							jQuery(MainHandle).find(".h5w-content").html(options.content).bind("keyup change", options.onChange).click(selectElement).bind('contextmenu', function (e) {
-									if (e.ctrlKey) 
+									if (e.ctrlKey) {
 										return true;
+									};
 									
 									$(MainHandle).find(".h5w-context-menu").css({
 											left : e.pageX, 
@@ -611,12 +613,12 @@
 									ToUseFunction = eval("contextMenu." + (e.target.tagName.toLowerCase()));
 									if (jQuery.isFunction(ToUseFunction)) {
 										ToUseFunction(e, this);
-									}
+									};
 									
 									ToUseFunction = eval("options.contextMenu." + (e.target.tagName.toLowerCase()));
 									if (jQuery.isFunction(ToUseFunction)) {
 										ToUseFunction(e, this);
-									}
+									};
 									var HContextAttr = $(e.target);
 									if (!HContextAttr.is(".h5w-content")) {
 										var hContextMenu = $(".h5w-context-menu .h5w-c-attr").html("");
@@ -641,12 +643,13 @@
 														}).text(attrs.item(i).nodeName).click(function () {
 															resValue = prompt("Set attribute " + $(this).text() + " : ", HContextAttr.attr($(this).text()));
 															HContextAttr.attr($(this).text(), resValue);
-															if (resValue == "") 
+															if (resValue == "" || typeof resValue == "null") {
 																HContextAttr.removeAttr($(this).text());
+															};
 															return true;
 														})));
 										};
-									}
+									};
 									return false;
 								});
 							jQuery(MainHandle).find(".h5w-scroll").click(function () {

@@ -662,6 +662,18 @@
 							
 							jQuery(MainHandle).find(".h5w-content").trigger("change");
 							options.onLoad(this);
+							
+							this.onpaste = function(event){
+								  var items = event.clipboardData.items;
+								  var blob = items[0].getAsFile();
+								  var reader = new FileReader();
+								  reader.onload = function(event){
+										document.execCommand('insertImage', null, event.target.result);
+									}; 
+								  reader.readAsDataURL(blob);
+								};
+
+
 						});
 				}, 
 				getContent : function () {

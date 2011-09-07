@@ -311,7 +311,7 @@
 								};
 								TableCreator += "</tr>";
 							};
-							TableCreator += "<table>";
+							TableCreator += "</table>";
 							return TableCreator;
 						}, 
 						onSelect : function () {

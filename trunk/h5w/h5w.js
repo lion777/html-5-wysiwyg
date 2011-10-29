@@ -331,10 +331,11 @@
 									
 									tablepicker.onSelect = eval(jQuery(this).data("h5w-onselect-function"));
 									var position = jQuery(this).position();
+									var positionEditor = jQuery(MainHandle).position();
 									
 									jQuery(MainHandle).find(".h5w-tablepicker-area").css({
-											left : position.left + jQuery(this).width() + 5, 
-											top : position.top + jQuery(this).height() + 5
+											left : position.left + positionEditor.left + jQuery(this).width() + 5, 
+											top : position.top + positionEditor.top +jQuery(this).height() + 5
 										}).html(tablepicker.generate(16, 16, true)).show("slow").find("table").delegate('td', 'mouseover mouseleave', function (e) {
 											if (e.type == 'mouseover') {
 												THandle = jQuery(this).parents("table");
@@ -399,11 +400,12 @@
 							
 							jQuery(MainHandle).find(".h5w-picker").click(function () {
 									var position = jQuery(this).position();
+									var positionEditor = jQuery(MainHandle).position();
 									picker.changebg = jQuery(this).data("h5w-destination");
 									picker.onChange = eval(jQuery(this).data("h5w-onchange-function"));
 									jQuery(MainHandle).find(".h5w-picker-area").css({
-											left : position.left + jQuery(this).width() + 5, 
-											top : position.top + jQuery(this).height() + 5
+											left : position.left + positionEditor.left + jQuery(this).width() + 5, 
+											top : position.top + positionEditor.top  +jQuery(this).height() + 5
 										}).show("slow");
 									var onClosePicker = function (event) {
 										if (!(jQuery(event.target).is('.h5w-picker-area') || jQuery(event.target).parents('.h5w-picker-area').length)) {
@@ -451,11 +453,12 @@
 										});
 									
 									var position = jQuery(this).position();
+									var positionEditor = jQuery(MainHandle).position();
 									sizepicker.changesize = jQuery(this).data("h5w-destination");
 									sizepicker.onChange = eval(jQuery(this).data("h5w-onchange-function"));
 									jQuery(MainHandle).find(".h5w-fontsize-picker-area").css({
-											left : position.left + jQuery(this).width() + 5, 
-											top : position.top + jQuery(this).height() + 5
+											left : position.left + positionEditor.left + jQuery(this).width() + 5, 
+											top : position.top + positionEditor.top + jQuery(this).height() + 5
 										}).show("slow");
 									var onCloseFontSizePicker = function (event) {
 										if (!(jQuery(event.target).is('.h5w-fontsize-picker-area') || jQuery(event.target).parents('.h5w-fontsize-picker-area').length)) {
@@ -486,12 +489,13 @@
 									typepicker.changeType = jQuery(this).data("h5w-destination");
 									
 									var position = jQuery(this).position();
+									var positionEditor = jQuery(MainHandle).position();
 									
 									typepicker.changeType = jQuery(this).data("h5w-destination");
 									typepicker.onChange = eval(jQuery(this).data("h5w-onchange-function"));
 									jQuery(MainHandle).find(".h5w-font-picker-area").css({
-											left : position.left + jQuery(this).width() - 100, 
-											top : position.top + jQuery(this).height() + 10
+											left : position.left + positionEditor.left  + jQuery(this).width() - 100, 
+											top : position.top + positionEditor.top + jQuery(this).height() + 10
 										}).show("slow");
 									var onCloseFontTypePicker = function (event) {
 										if (!(jQuery(event.target).is('.h5w-font-picker-area') || jQuery(event.target).parents('.h5w-font-picker-area').length)) {
@@ -599,12 +603,10 @@
 								});
 							jQuery(document).keydown(function (event) {
 									if (event.keyCode == 9) {
-										 document.execCommand('styleWithCSS', true, null);
-										document.execCommand('indent', true, null);
-											if(event.preventDefault){
-												event.preventDefault();
-											};
-									};
+										document.execCommand('insertHTML', false, "\t");
+										event.preventDefault();
+										event.returnValue = false;
+									}
 								});
 							jQuery(MainHandle).find(".h5w-tabs-bottom").tabs();
 							jQuery(MainHandle).find(".h5w-tabs-bottom .ui-tabs-nav, .h5w-tabs-bottom .ui-tabs-nav > *") 

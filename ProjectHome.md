@@ -1,0 +1,1 @@
+<h1><a href='https://github.com/bordeux/HTML-5-WYSIWYG-Editor'>PROJECT MOVED TO GITHUB</a></h1>
